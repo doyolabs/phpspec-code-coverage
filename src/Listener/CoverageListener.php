@@ -11,8 +11,6 @@ use Doyo\Symfony\Bridge\EventDispatcher\EventDispatcher;
 use Doyo\Symfony\Bridge\EventDispatcher\EventDispatcherInterface;
 use PhpSpec\Console\ConsoleIO;
 use PhpSpec\Event\ExampleEvent;
-use PhpSpec\Event\SuiteEvent;
-use PhpSpec\Loader\Node\ExampleNode;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CoverageListener implements EventSubscriberInterface
@@ -33,6 +31,11 @@ class CoverageListener implements EventSubscriberInterface
     private $dispatcher;
 
     /**
+     * @var bool
+     */
+    private $canCollectCoverage;
+
+    /**
      * CoverageListener constructor.
      * @param ProcessorInterface $processor
      * @param ConsoleIO $consoleIO
@@ -40,12 +43,14 @@ class CoverageListener implements EventSubscriberInterface
     public function __construct(
         EventDispatcher $dispatcher,
         ProcessorInterface $processor,
-        ConsoleIO $consoleIO
+        ConsoleIO $consoleIO,
+        bool $canCollectCoverage
     )
     {
         $this->dispatcher = $dispatcher;
         $this->processor = $processor;
         $this->consoleIO = $consoleIO;
+        $this->canCollectCoverage = $canCollectCoverage;
     }
 
     public static function getSubscribedEvents()
@@ -59,6 +64,9 @@ class CoverageListener implements EventSubscriberInterface
 
     public function beforeExample(ExampleEvent $suiteEvent)
     {
+        if(!$this->canCollectCoverage){
+            return;
+        }
         $example = $suiteEvent->getExample();
         $processor = $this->processor;
 
@@ -67,13 +75,15 @@ class CoverageListener implements EventSubscriberInterface
             '%example%' => $example->getFunctionReflection()->getName(),
         ]);
         $testCase = new TestCase($name);
-
         $processor->setCurrentTestCase($testCase);
         $processor->start($testCase);
     }
 
     public function afterExample(ExampleEvent $exampleEvent)
     {
+        if(!$this->canCollectCoverage){
+            return;
+        }
         $processor = $this->processor;
         $result = $exampleEvent->getResult();
         $testCase = $processor->getCurrentTestCase();
@@ -94,6 +104,9 @@ class CoverageListener implements EventSubscriberInterface
 
     public function afterSuite()
     {
+        if(!$this->canCollectCoverage){
+            return;
+        }
         $processor = $this->processor;
         $consoleIO = $this->consoleIO;
         $dispatcher = $this->dispatcher;

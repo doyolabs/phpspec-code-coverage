@@ -25,7 +25,7 @@ class CoverageListenerSpec extends ObjectBehavior
         ConsoleIO $consoleIO
     )
     {
-        $this->beConstructedWith($dispatcher, $processor, $consoleIO);
+        $this->beConstructedWith($dispatcher, $processor, $consoleIO, true);
     }
 
     function it_is_initializable()

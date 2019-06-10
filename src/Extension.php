@@ -42,14 +42,8 @@ class Extension implements BaseExtension
         /* @var \Symfony\Component\Console\Input\InputInterface $input */
         $input = $container->get('console.input');
 
-        if(false === $input->hasParameterOption(['--coverage'])){
-            return;
-        }
 
-        if(static::getDriverClass() === Dummy::class){
-            /* @var \PhpSpec\Console\ConsoleIO $output */
-            $output = $container->get('console.io');
-            $output->writeln('<error>No code coverage driver available</error>');
+        if(false === $input->hasParameterOption(['--coverage'])){
             return;
         }
 
@@ -67,7 +61,8 @@ class Extension implements BaseExtension
             $dispatcher = $container->get('doyo.coverage.dispatcher');
             $consoleIO = $container->get('console.io');
             $processor = $container->get('doyo.coverage.processor');
-            return new CoverageListener($dispatcher, $processor, $consoleIO);
+            $canCollectCoverage = Extension::canCollectCodeCoverage();
+            return new CoverageListener($dispatcher, $processor, $consoleIO, $canCollectCoverage);
         }, ['event_dispatcher.listeners']);
 
         $reports = $container->getByTag('doyo.coverage.reports');
@@ -187,5 +182,10 @@ class Extension implements BaseExtension
             $report = new Report($processor, $options);
             return $report;
         },['doyo.coverage.reports']);
+    }
+
+    public static function canCollectCodeCoverage()
+    {
+        return Extension::class !== Dummy::class;
     }
 }

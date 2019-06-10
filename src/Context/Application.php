@@ -48,11 +48,14 @@ final class Application extends BaseApplication
         $container->set('console.commands.run', new Command());
         $container->set('console.input', new StringInput('run --coverage'));
         $container->set('console.output', new StreamOutput(fopen('php://memory','+w')));
+        $container->set('cli.input', new StringInput('run --coverage'));
+        $container->set('cli.output', new StreamOutput(fopen('php://memory','+w')));
         $container->set('console.helper_set', $this->getDefaultHelperSet());
         $this->loadConfig($container, $config);
 
         $assembler = new ContainerAssembler();
         $assembler->build($container);
+        $container->set('console.input', new StringInput('run --coverage'));
         $this->container = $container;
     }
 
