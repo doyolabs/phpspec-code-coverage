@@ -17,7 +17,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "1.0-dev",
+            "dev-develop": "2.0-dev"
         }
     },
     "autoload": {
@@ -34,7 +35,7 @@
     "require": {
         "php": ">=7.0",
         "doyo/code-coverage-bridge": "^1.0@dev",
-        "doyo/symfony-bridge": "^1.0@dev",
+        "doyo/symfony-bridge": "^1.0@dev | ^2.0@dev",
         "phpspec/phpspec": "^4.3 | ^5.0"
     },
     "require-dev": {
