@@ -74,7 +74,7 @@ class RoboFile extends Tasks
         //$results[] = $this->configurePhpUnit()->run();
 
         if (!$this->watch) {
-            //$results[] = $this->configureBehat()->run();
+            $results[] = $this->configureBehat()->run();
         }
 
         $hasError = false;

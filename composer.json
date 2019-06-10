@@ -29,7 +29,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "spec\\Doyo\\PhpSpec\\CodeCoverage\\": "spec/"
+            "spec\\Doyo\\PhpSpec\\CodeCoverage\\": "spec/",
+            "Test\\Doyo\\PhpSpec\\CodeCoverage\\Contexts\\": "features/contexts"
         }
     },
     "require": {
@@ -39,6 +40,7 @@
         "phpspec/phpspec": "^4.3 | ^5.0"
     },
     "require-dev": {
+        "doyo/behat-code-coverage": "^1.0@dev",
         "phpunit/phpcov": "^4.0"
     }
 }

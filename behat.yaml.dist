@@ -1,0 +1,15 @@
+default:
+    suites:
+        default:
+            contexts:
+                - Doyo\PhpSpec\CodeCoverage\Context\ServiceContext
+                - Doyo\PhpSpec\CodeCoverage\Context\PhpSpecRunContext
+    extensions:
+        Doyo\Behat\Coverage\Extension:
+            filter:
+                - directory: src
+                  exclude:
+                    - src/Context
+            report:
+                php: build/cov/behat.cov
+                html: build/behat

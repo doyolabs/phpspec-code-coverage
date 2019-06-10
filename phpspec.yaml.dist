@@ -9,6 +9,8 @@ extensions:
         filters:
             whitelist:
                 - src
+            blacklist:
+                - src/Context
         reports:
             php: build/cov/phpspec.cov
             html: build/phpspec
