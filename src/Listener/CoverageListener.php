@@ -33,11 +33,6 @@ class CoverageListener implements EventSubscriberInterface
     private $dispatcher;
 
     /**
-     * @var CoverageEvent
-     */
-    private $coverageEvent;
-
-    /**
      * CoverageListener constructor.
      * @param ProcessorInterface $processor
      * @param ConsoleIO $consoleIO
@@ -58,7 +53,6 @@ class CoverageListener implements EventSubscriberInterface
         return [
             'beforeExample' => ['beforeExample', -10],
             'afterExample' => ['afterExample', -10],
-            'beforeSuite' => ['beforeSuite', -10],
             'afterSuite' => ['afterSuite', -10]
         ];
     }
