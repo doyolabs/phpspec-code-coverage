@@ -15,7 +15,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Facade;
 use SebastianBergmann\CodeCoverage\Report\PHP;
 use SebastianBergmann\Environment\Runtime;
 use Symfony\Component\Console\Input\InputOption;
-use Doyo\PhpSpec\CodeCoverage\Processor;
+use Doyo\Bridge\CodeCoverage\Processor;
 
 class Extension implements BaseExtension
 {

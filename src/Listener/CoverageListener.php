@@ -4,7 +4,7 @@
 namespace Doyo\PhpSpec\CodeCoverage\Listener;
 
 
-use Doyo\PhpSpec\CodeCoverage\ProcessorInterface;
+use Doyo\Bridge\CodeCoverage\ProcessorInterface;
 use Doyo\Bridge\CodeCoverage\TestCase;
 use Doyo\PhpSpec\CodeCoverage\Event\CoverageEvent;
 use Doyo\Symfony\Bridge\EventDispatcher\EventDispatcher;
