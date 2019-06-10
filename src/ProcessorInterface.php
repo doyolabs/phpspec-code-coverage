@@ -3,8 +3,8 @@
 
 namespace Doyo\PhpSpec\CodeCoverage;
 
-use Doyo\Behat\Coverage\Bridge\CodeCoverage\ProcessorInterface as BaseProcessorInterface;
-use Doyo\Behat\Coverage\Bridge\CodeCoverage\TestCase;
+use Doyo\Bridge\CodeCoverage\ProcessorInterface as BaseProcessorInterface;
+use Doyo\Bridge\CodeCoverage\TestCase;
 
 interface ProcessorInterface extends BaseProcessorInterface
 {

@@ -4,8 +4,8 @@
 namespace Doyo\PhpSpec\CodeCoverage\Event;
 
 
-use Doyo\Behat\Coverage\Bridge\CodeCoverage\ProcessorInterface;
-use Doyo\Behat\Coverage\Bridge\CodeCoverage\TestCase;
+use Doyo\Bridge\CodeCoverage\ProcessorInterface;
+use Doyo\Bridge\CodeCoverage\TestCase;
 use Doyo\Symfony\Bridge\EventDispatcher\Event;
 use PhpSpec\Console\ConsoleIO;
 

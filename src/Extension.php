@@ -3,7 +3,7 @@
 
 namespace Doyo\PhpSpec\CodeCoverage;
 
-use Doyo\Behat\Coverage\Bridge\CodeCoverage\Driver\Dummy;
+use Doyo\Bridge\CodeCoverage\Driver\Dummy;
 use Doyo\PhpSpec\CodeCoverage\Listener\CoverageListener;
 use Doyo\Symfony\Bridge\EventDispatcher\EventDispatcher;
 use PhpSpec\Extension as BaseExtension;

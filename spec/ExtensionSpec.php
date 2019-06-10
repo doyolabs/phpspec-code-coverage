@@ -2,7 +2,7 @@
 
 namespace spec\Doyo\PhpSpec\CodeCoverage;
 
-use Doyo\Behat\Coverage\Bridge\CodeCoverage\Driver\Dummy;
+use Doyo\Bridge\CodeCoverage\Driver\Dummy;
 use Doyo\PhpSpec\CodeCoverage\Extension;
 use Doyo\PhpSpec\CodeCoverage\Report;
 use PhpSpec\Console\ConsoleIO;
