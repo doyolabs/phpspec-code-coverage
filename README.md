@@ -1,6 +1,6 @@
-Behat Coverage Extension [![License](https://img.shields.io/packagist/l/doyo/phpspec-code-coverage.svg?style=flat-square)](https://github.com/doyolabs/phpspec-code-coverage/blob/master/LICENSE)
+PhpSpec Code Coverage [![License](https://img.shields.io/packagist/l/doyo/phpspec-code-coverage.svg?style=flat-square)](https://github.com/doyolabs/phpspec-code-coverage/blob/master/LICENSE)
 ---
-Provide code coverage extension during behat tests
+Provide code coverage extension during phpspec run
 
 ### Status
 | Branch  | Status | Coverage | Score | 
