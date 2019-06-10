@@ -8,9 +8,6 @@ extensions:
     Doyo\PhpSpec\CodeCoverage\Extension:
         whitelist:
             - src
-        format:
-            - php
-            - html
-        output:
+        reports:
             php: build/cov/phpspec.cov
             html: build/phpspec

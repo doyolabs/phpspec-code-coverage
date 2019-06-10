@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ebb68d52b348ef38d852c7804866e62",
+    "content-hash": "c5e2465f80a8d21c829fce455f21bcc7",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -97,6 +97,49 @@
             ],
             "description": "Add a functionality to customize phpunit/php-code-coverage",
             "time": "2019-06-10T04:16:02+00:00"
+        },
+        {
+            "name": "doyo/symfony-bridge",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doyolabs/symfony-bridge.git",
+                "reference": "58b44c3aee29b1ed9b609386bdae884f94521d67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doyolabs/symfony-bridge/zipball/58b44c3aee29b1ed9b609386bdae884f94521d67",
+                "reference": "58b44c3aee29b1ed9b609386bdae884f94521d67",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5",
+                "symfony/event-dispatcher": "^3.4 | ^4.3",
+                "symfony/translation": "^3.4 | ^4.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doyo\\Symfony\\Bridge\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthonius Munthi",
+                    "email": "me@itstoni.com"
+                }
+            ],
+            "description": "Provide Compatibility mode between symfony 3.4 and 4.3",
+            "time": "2019-06-10T02:55:31+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -1614,7 +1657,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "doyo/code-coverage-bridge": 20
+        "doyo/code-coverage-bridge": 20,
+        "doyo/symfony-bridge": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
