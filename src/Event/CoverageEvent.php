@@ -52,12 +52,4 @@ class CoverageEvent extends Event
     {
         return $this->consoleIO;
     }
-
-    /**
-     * @return TestCase|null
-     */
-    public function getTestCase()
-    {
-        return $this->testCase;
-    }
 }

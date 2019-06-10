@@ -2,7 +2,7 @@
 
 namespace spec\Doyo\PhpSpec\CodeCoverage\Listener;
 
-use Doyo\PhpSpec\CodeCoverage\ProcessorInterface;
+use Doyo\Bridge\CodeCoverage\ProcessorInterface;
 use Doyo\Bridge\CodeCoverage\TestCase;
 use Doyo\PhpSpec\CodeCoverage\Event\CoverageEvent;
 use Doyo\PhpSpec\CodeCoverage\Listener\CoverageListener;
@@ -25,7 +25,7 @@ class CoverageListenerSpec extends ObjectBehavior
         ConsoleIO $consoleIO
     )
     {
-        $this->beConstructedWith($dispatcher, $processor, $consoleIO);
+        $this->beConstructedWith($dispatcher, $processor, $consoleIO, true);
     }
 
     function it_is_initializable()
