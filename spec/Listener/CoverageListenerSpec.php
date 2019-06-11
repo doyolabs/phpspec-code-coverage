@@ -2,13 +2,12 @@
 
 namespace spec\Doyo\PhpSpec\CodeCoverage\Listener;
 
+use Doyo\Bridge\CodeCoverage\CodeCoverage;
 use Doyo\Bridge\CodeCoverage\ProcessorInterface;
 use Doyo\Bridge\CodeCoverage\TestCase;
 use Doyo\PhpSpec\CodeCoverage\Event\CoverageEvent;
 use Doyo\PhpSpec\CodeCoverage\Listener\CoverageListener;
 use Doyo\Symfony\Bridge\EventDispatcher\EventDispatcher;
-use Doyo\Symfony\Bridge\EventDispatcher\EventDispatcherInterface;
-use PhpSpec\Console\ConsoleIO;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Loader\Node\ExampleNode;
@@ -20,12 +19,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class CoverageListenerSpec extends ObjectBehavior
 {
     function let(
-        ProcessorInterface $processor,
-        EventDispatcher $dispatcher,
-        ConsoleIO $consoleIO
+        CodeCoverage $coverage
     )
     {
-        $this->beConstructedWith($dispatcher, $processor, $consoleIO, true);
+        $this->beConstructedWith($coverage);
     }
 
     function it_is_initializable()
@@ -65,14 +62,12 @@ class CoverageListenerSpec extends ObjectBehavior
         ExampleNode $example,
         SpecificationNode $specification,
         \ReflectionFunctionAbstract $reflection,
-        ProcessorInterface $processor
+        CodeCoverage $coverage
     )
     {
         $this->decorateBeforeExampleEvent($exampleEvent, $example,$specification,$reflection);
 
-        $processor->setCurrentTestCase(Argument::type(TestCase::class))
-            ->shouldBeCalledOnce();
-        $processor->start(Argument::type(TestCase::class))
+        $coverage->start(Argument::type(TestCase::class))
             ->shouldBeCalledOnce();
 
         $this->beforeExample($exampleEvent);
@@ -80,8 +75,7 @@ class CoverageListenerSpec extends ObjectBehavior
 
     public function it_should_handle_after_example_event(
         ExampleEvent $exampleEvent,
-        ProcessorInterface $processor,
-        TestCase $testCase
+        CodeCoverage $coverage
     )
     {
         $exampleEvent
@@ -89,32 +83,19 @@ class CoverageListenerSpec extends ObjectBehavior
             ->shouldBeCalledOnce()
             ->willReturn(0);
 
-        $testCase->setResult(0)
+        $coverage->setResult(0)
             ->shouldBeCalledOnce();
 
-        $processor
-            ->getCurrentTestCase()
-            ->willReturn($testCase)
-        ;
-        $processor->stop(Argument::cetera())
-            ->shouldBeCalledOnce();
-
-        $processor->addTestCase($testCase)
-            ->shouldBeCalledOnce();
-
+        $coverage->stop()->shouldBeCalledOnce();
         $this->afterExample($exampleEvent);
     }
 
     function it_should_handle_after_suite_event(
-        SuiteEvent $suiteEvent,
-        EventDispatcher $dispatcher
+        CodeCoverage $coverage
     )
     {
-        $dispatcher
-            ->dispatch(Argument::type(CoverageEvent::class), CoverageEvent::REPORT)
-            ->shouldBeCalledOnce();
-
-        $this->afterSuite($suiteEvent);
+        $coverage->complete()->shouldBeCalledOnce();
+        $this->afterSuite();
     }
 
 }

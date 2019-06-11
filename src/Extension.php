@@ -3,17 +3,16 @@
 
 namespace Doyo\PhpSpec\CodeCoverage;
 
+use Doyo\Bridge\CodeCoverage\Environment\Runtime;
+use Doyo\Bridge\CodeCoverage\CodeCoverage;
+use Doyo\Bridge\CodeCoverage\Console\Console;
 use Doyo\Bridge\CodeCoverage\Driver\Dummy;
+use Doyo\Bridge\CodeCoverage\Report\Html;
+use Doyo\Bridge\CodeCoverage\Report\PHP;
 use Doyo\PhpSpec\CodeCoverage\Listener\CoverageListener;
-use Doyo\Symfony\Bridge\EventDispatcher\EventDispatcher;
 use PhpSpec\Extension as BaseExtension;
 use PhpSpec\ServiceContainer;
-use SebastianBergmann\CodeCoverage\Driver\PHPDBG;
-use SebastianBergmann\CodeCoverage\Driver\Xdebug;
 use SebastianBergmann\CodeCoverage\Filter;
-use SebastianBergmann\CodeCoverage\Report\Html\Facade;
-use SebastianBergmann\CodeCoverage\Report\PHP;
-use SebastianBergmann\Environment\Runtime;
 use Symfony\Component\Console\Input\InputOption;
 use Doyo\Bridge\CodeCoverage\Processor;
 
@@ -47,54 +46,49 @@ class Extension implements BaseExtension
             return;
         }
 
-        $this->loadDriver($container, $params);
+        $this->loadDriver($container);
         $this->loadFilter($container, $params);
         $this->loadProcessor($container, $params);
         $this->loadReports($container, $params);
-        $container->define('doyo.coverage.dispatcher', function($container){
-            $dispatcher = new EventDispatcher();
-
+        $container->define('doyo.coverage.code_coverage', function($container){
+            $processor = $container->get('doyo.coverage.processor');
+            $input = $container->get('console.input');
+            $output = $container->get('console.output');
+            $consoleIO = new Console($input, $output);
+            $runtime = $container->get('doyo.coverage.runtime');
+            $dispatcher = new CodeCoverage($processor, $consoleIO, $runtime);
             return $dispatcher;
         });
 
         $container->define('doyo.coverage.listener',function($container){
-            $dispatcher = $container->get('doyo.coverage.dispatcher');
-            $consoleIO = $container->get('console.io');
-            $processor = $container->get('doyo.coverage.processor');
-            $canCollectCoverage = Extension::canCollectCodeCoverage();
-            return new CoverageListener($dispatcher, $processor, $consoleIO, $canCollectCoverage);
+            $coverage = $container->get('doyo.coverage.code_coverage');
+            return new CoverageListener($coverage);
         }, ['event_dispatcher.listeners']);
 
-        $reports = $container->getByTag('doyo.coverage.reports');
-        $dispatcher = $container->get('doyo.coverage.dispatcher');
-        foreach($reports as $report){
-            $dispatcher->addSubscriber($report);
+        $container->define('doyo.coverage.report', function($container){
+
+            $coverage = $container->get('doyo.coverage.code_coverage');
+            $report = new \Doyo\Bridge\CodeCoverage\Report();
+            $coverage->addSubscriber($report);
+
+            return $report;
+        });
+
+
+        $reportProcessors = $container->getByTag('doyo.coverage.reports');
+        $report = $container->get('doyo.coverage.report');
+        foreach($reportProcessors as $processor){
+            $report->addProcessor($processor);
         }
     }
 
-    public static function getDriverClass()
+    private function loadDriver(ServiceContainer $container)
     {
-        static $runtime;
-        if(!$runtime instanceof Runtime){
-            $runtime = new Runtime();
-        }
-
-        $driverClass = Dummy::class;
-        if($runtime->canCollectCodeCoverage()){
-            if($runtime->isPHPDBG()){
-                $driverClass = PHPDBG::class;
-            }else{
-                $driverClass = Xdebug::class;
-            }
-        }
-
-        return $driverClass;
-    }
-
-    private function loadDriver(ServiceContainer $container, array $params)
-    {
-        $driverClass = static::getDriverClass();
-        $container->define('doyo.coverage.driver', function() use ($params, $driverClass){
+        $container->define('doyo.coverage.runtime', function(){
+            return new Runtime();
+        });
+        $container->define('doyo.coverage.driver', function($container){
+            $driverClass = $container->get('doyo.coverage.runtime')->getDriverClass();
             return new $driverClass;
         });
     }
@@ -133,7 +127,7 @@ class Extension implements BaseExtension
     private function loadReports(ServiceContainer $container, array $params)
     {
         $reports = [
-            'html' => Facade::class,
+            'html' => Html::class,
             'php' => PHP::class
         ];
 
@@ -149,38 +143,16 @@ class Extension implements BaseExtension
             return;
         }
 
-        $dirTypes = ['html'];
-        $fsType = in_array($type, $dirTypes) ? 'dir':'file';
-        $options = array();
-        $test = $reportConfig[$type];
+        $options = [];
 
-        if(is_string($test)){
-            $options['target'] = $test;
+        if(is_string($reportConfig[$type])){
+            $options['target'] = $reportConfig[$type];
         }else{
             $options = $reportConfig[$type];
         }
-
-        $options['type'] = $fsType;
-        $r = new \ReflectionClass($class);
-        $constructorParams = [];
-
-        if(!is_null($r->getConstructor())){
-            foreach($r->getConstructor()->getParameters() as $parameter){
-                $name = $parameter->getName();
-                if($parameter->isDefaultValueAvailable()){
-                    break;
-                }
-                $default = $parameter->getDefaultValue();
-                $constructorParams[] = isset($options[$name]) ? $options[$name]:$default;
-            }
-        }
-
         $id = 'doyo.coverage.reports.'.$type;
-        $container->define($id, function($container) use ($class, $constructorParams, $options){
-            $r = new \ReflectionClass($class);
-            $processor = $r->newInstanceArgs($constructorParams);
-            $report = new Report($processor, $options);
-            return $report;
+        $container->define($id, function() use ($class, $options){
+            return new $class($options);
         },['doyo.coverage.reports']);
     }
 

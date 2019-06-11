@@ -4,14 +4,11 @@ namespace spec\Doyo\PhpSpec\CodeCoverage;
 
 use Doyo\Bridge\CodeCoverage\Driver\Dummy;
 use Doyo\PhpSpec\CodeCoverage\Extension;
-use Doyo\PhpSpec\CodeCoverage\Report;
 use PhpSpec\Console\ConsoleIO;
 use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\ServiceContainer;
 use Prophecy\Argument;
-use SebastianBergmann\CodeCoverage\Driver\Driver;
-use SebastianBergmann\CodeCoverage\Filter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
