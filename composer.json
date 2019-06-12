@@ -22,8 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Doyo\\PhpSpec\\CodeCoverage\\": "src/",
-            "Doyo\\Behat\\Coverage\\Bridge\\CodeCoverage\\": "vendor/doyo/code-coverage-bridge"
+            "Doyo\\PhpSpec\\CodeCoverage\\": "src/"
         }
     },
     "autoload-dev": {
@@ -34,8 +33,8 @@
     },
     "require": {
         "php": ">=7.0",
-        "doyo/code-coverage-bridge": "^1.0@dev | ^2.0@dev",
-        "doyo/symfony-bridge": "^1.0@dev | ^2.0@dev",
+        "doyo/code-coverage-bridge": "^1.0@dev",
+        "doyo/symfony-bridge": "^1.0@dev",
         "phpspec/phpspec": "^4.3 | ^5.0"
     },
     "require-dev": {
