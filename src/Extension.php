@@ -7,6 +7,7 @@ use Doyo\Bridge\CodeCoverage\Environment\Runtime;
 use Doyo\Bridge\CodeCoverage\CodeCoverage;
 use Doyo\Bridge\CodeCoverage\Console\Console;
 use Doyo\Bridge\CodeCoverage\Driver\Dummy;
+use Doyo\Bridge\CodeCoverage\Report;
 use Doyo\Bridge\CodeCoverage\Report\Html;
 use Doyo\Bridge\CodeCoverage\Report\PHP;
 use Doyo\PhpSpec\CodeCoverage\Listener\CoverageListener;
@@ -68,7 +69,7 @@ class Extension implements BaseExtension
         $container->define('doyo.coverage.report', function($container){
 
             $coverage = $container->get('doyo.coverage.code_coverage');
-            $report = new \Doyo\Bridge\CodeCoverage\Report();
+            $report = new Report();
             $coverage->addSubscriber($report);
 
             return $report;

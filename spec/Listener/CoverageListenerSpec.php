@@ -3,13 +3,9 @@
 namespace spec\Doyo\PhpSpec\CodeCoverage\Listener;
 
 use Doyo\Bridge\CodeCoverage\CodeCoverage;
-use Doyo\Bridge\CodeCoverage\ProcessorInterface;
 use Doyo\Bridge\CodeCoverage\TestCase;
-use Doyo\PhpSpec\CodeCoverage\Event\CoverageEvent;
 use Doyo\PhpSpec\CodeCoverage\Listener\CoverageListener;
-use Doyo\Symfony\Bridge\EventDispatcher\EventDispatcher;
 use PhpSpec\Event\ExampleEvent;
-use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Loader\Node\ExampleNode;
 use PhpSpec\Loader\Node\SpecificationNode;
 use PhpSpec\ObjectBehavior;
@@ -51,10 +47,8 @@ class CoverageListenerSpec extends ObjectBehavior
             ->willReturn($example);
 
         $example->getSpecification()->willReturn($specification);
-        $specification->getTitle()->willReturn('title');
-
-        $example->getFunctionReflection()->willReturn($reflection);
-        $reflection->getName()->willReturn('function');
+        $specification->getTitle()->willReturn('class');
+        $example->getTitle()->willReturn('title');
     }
 
     function it_should_handle_before_example_event(

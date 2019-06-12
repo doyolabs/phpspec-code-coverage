@@ -38,9 +38,9 @@ class CoverageListener implements EventSubscriberInterface
     public function beforeExample(ExampleEvent $suiteEvent)
     {
         $example = $suiteEvent->getExample();
-        $name = strtr('%spec%::%example%', [
+        $name = strtr('%spec%:%example%', [
             '%spec%'    => $example->getSpecification()->getTitle(),
-            '%example%' => $example->getFunctionReflection()->getName(),
+            '%example%' => $example->getTitle()
         ]);
         $testCase = new TestCase($name);
 
@@ -59,8 +59,8 @@ class CoverageListener implements EventSubscriberInterface
         ];
 
         $result = $map[$result];
-        $this->coverage->stop();
         $this->coverage->setResult($result);
+        $this->coverage->stop();
     }
 
     public function afterSuite()

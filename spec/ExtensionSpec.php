@@ -2,10 +2,9 @@
 
 namespace spec\Doyo\PhpSpec\CodeCoverage;
 
-use Doyo\Bridge\CodeCoverage\Driver\Dummy;
+use Doyo\Bridge\CodeCoverage\Report;
 use Doyo\PhpSpec\CodeCoverage\Extension;
 use PhpSpec\Console\ConsoleIO;
-use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\ServiceContainer;
 use Prophecy\Argument;
@@ -13,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Doyo\Bridge\CodeCoverage\Report\ReportProcessorInterface;
 
 class ExtensionSpec extends ObjectBehavior
 {
@@ -71,12 +71,10 @@ class ExtensionSpec extends ObjectBehavior
         InputInterface $input,
         ServiceContainer $container,
         EventDispatcher $dispatcher,
-        Report $report
+        Report $report,
+        ReportProcessorInterface $reportProcessor
     )
     {
-        if(Extension::getDriverClass() === Dummy::class){
-            throw new SkippingException('phpdbg or xdebug not loaded');
-        }
         $input->hasParameterOption(Argument::any())->willReturn(true);
         $container
             ->define('doyo.coverage.driver', Argument::any())
@@ -88,11 +86,19 @@ class ExtensionSpec extends ObjectBehavior
             ->define('doyo.coverage.processor', Argument::any())
             ->shouldBeCalledOnce();
         $container
-            ->define('doyo.coverage.dispatcher', Argument::cetera())
-            ->shouldBeCalledOnce();
-        $container
             ->define('doyo.coverage.listener', Argument::any(), ['event_dispatcher.listeners'])
             ->shouldBeCalledOnce();
+        $container
+            ->define('doyo.coverage.runtime', Argument::cetera())
+            ->shouldBeCalledOnce();
+        $container
+            ->define('doyo.coverage.code_coverage', Argument::cetera())
+            ->shouldBeCalledOnce();
+        $container
+            ->define('doyo.coverage.report', Argument::cetera())
+            ->shouldBeCalledOnce();
+
+        $container->get('doyo.coverage.report')->willReturn($report);
 
         $container
             ->define(
@@ -111,14 +117,16 @@ class ExtensionSpec extends ObjectBehavior
             ->shouldBeCalledOnce()
         ;
 
-        $dispatcher->addSubscriber($report)
+        $report->addProcessor($reportProcessor)
             ->shouldBeCalledOnce();
 
         $container->getByTag('doyo.coverage.reports')
-            ->willReturn([$report])
+            ->willReturn([$reportProcessor])
             ->shouldBeCalledOnce();
-        $container->get('doyo.coverage.dispatcher')
-            ->willReturn($dispatcher);
+        $container->get('doyo.coverage.report')
+            ->willReturn($report);
+
+
         $this->loadCoverageListener($container, [
             'reports' => [
                 'php' => __DIR__,
