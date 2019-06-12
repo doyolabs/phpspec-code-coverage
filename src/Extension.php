@@ -156,9 +156,4 @@ class Extension implements BaseExtension
             return new $class($options);
         },['doyo.coverage.reports']);
     }
-
-    public static function canCollectCodeCoverage()
-    {
-        return Extension::class !== Dummy::class;
-    }
 }

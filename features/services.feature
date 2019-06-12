@@ -19,7 +19,8 @@ Feature: PhpSpec Coverage Extension
     Then service "doyo.coverage.driver" should exist
     And service "doyo.coverage.filter" should exist
     And service "doyo.coverage.processor" should exist
-    And service "doyo.coverage.dispatcher" should exist
+    And service "doyo.coverage.code_coverage" should exist
+    And service "doyo.coverage.report" should exist
     And service "doyo.coverage.reports.html" should exist
     And service "doyo.coverage.reports.php" should exist
     And service "doyo.coverage.listener" should exist
