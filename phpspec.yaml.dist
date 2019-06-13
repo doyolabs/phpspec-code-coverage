@@ -1,16 +1,22 @@
-formatter.name: pretty
+formatter.name: dot
 suites:
-    doyo_coverage:
-        namespace: Doyo\PhpSpec\CodeCoverage
-        psr4_prefix: Doyo\PhpSpec\CodeCoverage
+    code_coverage:
+        namespace: Doyo\Bridge\CodeCoverage
+        psr4_prefix: Doyo\Bridge\CodeCoverage
+        spec_prefix: Spec
+        src_path: ""
 
 extensions:
     Doyo\PhpSpec\CodeCoverage\Extension:
-        filters:
-            whitelist:
-                - src
-            blacklist:
-                - src/Context
+        filter:
+            - directory: ""
+              exclude:
+                  - Spec
+                  - Resources
+                  - Context
+                  - vendor
+                  - build
+                  - file: RoboFile.php
         reports:
             php: build/cov/phpspec.cov
             html: build/phpspec
