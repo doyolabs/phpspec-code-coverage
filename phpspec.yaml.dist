@@ -1,8 +1,8 @@
 formatter.name: dot
 suites:
     code_coverage:
-        namespace: Doyo\Bridge\CodeCoverage
-        psr4_prefix: Doyo\Bridge\CodeCoverage
+        namespace: Doyo\PhpSpec\CodeCoverage
+        psr4_prefix: Doyo\PhpSpec\CodeCoverage
         spec_prefix: Spec
         src_path: ""
 
@@ -18,5 +18,5 @@ extensions:
                   - build
                   - file: RoboFile.php
         reports:
-            php: build/cov/phpspec.cov
+            php: build/cov/01-phpspec.cov
             html: build/phpspec

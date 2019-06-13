@@ -1,15 +1,24 @@
 default:
     suites:
         default:
+            paths:
+                - "%paths.base%/Resources/features"
             contexts:
-                - Doyo\PhpSpec\CodeCoverage\Context\ServiceContext
-                - Doyo\PhpSpec\CodeCoverage\Context\PhpSpecRunContext
+                - Doyo\Bridge\CodeCoverage\Context\ContainerContext
+                - Doyo\Bridge\CodeCoverage\Context\CoverageContext
+                - Doyo\PhpSpec\CodeCoverage\Context\ApplicationContext
+                - Doyo\PhpSpec\CodeCoverage\Context\FilesystemContext
     extensions:
-        Doyo\Behat\Coverage\Extension:
+        Doyo\Behat\CodeCoverage\Extension:
             filter:
-                - directory: src
+                - directory: ""
                   exclude:
-                    - src/Context
-            report:
-                php: build/cov/behat.cov
+                      - Spec
+                      - Resources
+                      - Context
+                      - vendor
+                      - build
+                      - file: RoboFile.php
+            reports:
+                php: build/cov/02-behat.cov
                 html: build/behat
