@@ -1,0 +1,16 @@
+formatter.name: pretty
+suites:
+    doyo_coverage:
+        namespace: Doyo\PhpSpec\CodeCoverage
+        psr4_prefix: Doyo\PhpSpec\CodeCoverage
+
+extensions:
+    Doyo\PhpSpec\CodeCoverage\Extension:
+        filters:
+            whitelist:
+                - src
+            blacklist:
+                - src/Context
+        reports:
+            php: build/cov/phpspec.cov
+            html: build/phpspec
