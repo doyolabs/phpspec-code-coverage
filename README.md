@@ -2,22 +2,29 @@ PhpSpec Code Coverage
 ---
 Provide code coverage extension during phpspec run
 
-[![License](https://img.shields.io/packagist/l/doyo/phpspec-code-coverage.svg?style=flat-square)](https://github.com/doyolabs/phpspec-code-coverage/blob/master/LICENSE)
-[![Build Status][travis-master]][travis]
-[![Coverage][cover-stat-master]][cover-master]
-[![Score][score-stat-master]][score-master] 
+[![License][phpspec-license-badge]][phpspec-license]
+[![Version][phpspec-version-badge]][phpspec-version]
+[![Build Status][phpspec-travis-badge]][phpspec-travis]
+[![Coverage][phpspec-cover-badge]][phpspec-cover]
+[![Score][phpspec-score-badge]][phpspec-score]
+
+[phpspec]:                   https://github.com/doyolabs/phpspec-code-coverage
+[phpspec-license]:           https://github.com/doyolabs/phpspec-code-coverage/blob/master/LICENSE
+[phpspec-license-badge]:     https://img.shields.io/packagist/l/doyo/phpspec-code-coverage.svg?style=flat-square
+[phpspec-version]:           https://packagist.org/packages/doyo/phpspec-code-coverage
+[phpspec-version-badge]:     https://img.shields.io/packagist/vpre/doyo/phpspec-code-coverage.svg?style=flat-square
+[phpspec-travis]:            https://travis-ci.com/doyolabs/phpspec-code-coverage
+[phpspec-travis-badge]:      https://img.shields.io/travis/com/doyolabs/phpspec-code-coverage/master.svg?style=flat-square
+[phpspec-cover]:             https://coveralls.io/github/doyolabs/phpspec-code-coverage?branch=master
+[phpspec-cover-badge]:       https://img.shields.io/coveralls/github/doyolabs/phpspec-code-coverage/master.svg?style=flat-square
+[phpspec-score]:             https://scrutinizer-ci.com/g/doyolabs/phpspec-code-coverage/?branch=master
+[phpspec-score-badge]:       https://img.shields.io/scrutinizer/quality/g/doyolabs/phpspec-code-coverage/master.svg?style=flat-square
+
 
 ### Support
 *  PHP: >=7.0
 *  Behat: >=3.0
 *  PHP Code Coverage: >=5.3
-
-[travis]:                   https://travis-ci.com/doyolabs/phpspec-code-coverage
-[travis-master]:            https://img.shields.io/travis/com/doyolabs/phpspec-code-coverage/master.svg?style=flat-square
-[cover-master]:             https://coveralls.io/github/doyolabs/phpspec-code-coverage?branch=master
-[cover-stat-master]:        https://img.shields.io/coveralls/github/doyolabs/phpspec-code-coverage/master.svg?style=flat-square
-[score-master]:             https://scrutinizer-ci.com/g/doyolabs/phpspec-code-coverage/?branch=master
-[score-stat-master]:        https://img.shields.io/scrutinizer/quality/g/doyolabs/phpspec-code-coverage/master.svg?style=flat-square
 
 Install
 ----

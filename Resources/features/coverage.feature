@@ -42,7 +42,7 @@ Feature: PHP Spec Code Coverage
       extensions:
           Doyo\PhpSpec\CodeCoverage\Extension:
               filter:
-                  - directory: src
+                  - src
               reports:
                   php: build/cov/phpspec.cov
                   html: build/phpspec

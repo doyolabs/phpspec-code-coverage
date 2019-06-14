@@ -34,7 +34,7 @@ class Extension implements ExtensionInterface
         }
 
         $container->define('doyo.coverage.container', function ($container) use ($params) {
-            $coverageContainer = (new ContainerFactory($params, true))->getContainer();
+            $coverageContainer = (new ContainerFactory($params))->getContainer();
             $input = $container->get('console.input');
             $output = $container->get('console.output');
             $coverageContainer->set('console.input', $input);

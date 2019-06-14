@@ -71,7 +71,7 @@ class FilesystemContext implements Context
     public function removeWorkingDirectory()
     {
         try {
-            $this->filesystem->remove($this->workingDirectory);
+            //$this->filesystem->remove($this->workingDirectory);
         } catch (IOException $e) {
             //ignoring exception
         }

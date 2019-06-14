@@ -31,13 +31,10 @@
         }
     },
     "require": {
-        "php": ">=7.0",
         "doyo/code-coverage-bridge": "^1.0@dev",
-        "doyo/symfony-bridge": "^1.0@dev",
         "phpspec/phpspec": "^4.3 | ^5.0"
     },
     "require-dev": {
-        "doyo/behat-code-coverage": "^1.0@dev",
         "phpunit/phpcov": "^4.0"
     }
 }
