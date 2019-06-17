@@ -55,5 +55,5 @@ Feature: PHP Spec Code Coverage
     And I should see "generated html"
     And I should see "generated php"
     And I should see "\Test::Test\Foo"
-    When I read coverage report "build/cov/phpspec.cov"
-    Then file "src/Test/Foo.php" line 9 should covered
+    When I read phpspec coverage report "build/cov/phpspec.cov"
+    Then file "src/Test/Foo.php" line 9 should be covered

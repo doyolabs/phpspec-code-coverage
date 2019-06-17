@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Doyo\PhpSpec\CodeCoverage\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\ScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
+use Doyo\Bridge\CodeCoverage\Context\CoverageContext;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -34,6 +36,11 @@ class FilesystemContext implements Context
      */
     private $filesystem;
 
+    /**
+     * @var CoverageContext
+     */
+    private $coverageContext;
+
     public function __construct()
     {
         $this->filesystem = new Filesystem();
@@ -42,9 +49,15 @@ class FilesystemContext implements Context
     /**
      * @beforeScenario
      */
-    public function prepWorkingDirectory()
+    public function prepWorkingDirectory(ScenarioScope $scope)
     {
-        $this->workingDirectory = tempnam(sys_get_temp_dir(), 'phpspec-behat');
+        $this->coverageContext = $scope->getEnvironment()->getContext(CoverageContext::class);
+
+        $dir = sys_get_temp_dir().'/doyo/tests';
+        if(!is_dir($dir)){
+            mkdir($dir,0775,true);
+        }
+        $this->workingDirectory = tempnam($dir, 'phpspec-behat');
         $this->filesystem->remove($this->workingDirectory);
         $this->filesystem->mkdir($this->workingDirectory);
         chdir($this->workingDirectory);
@@ -66,12 +79,24 @@ class FilesystemContext implements Context
     }
 
     /**
+     * @Given I read phpspec coverage report :file
+     *
+     * @param string $file
+     */
+    public function iReadPhpspecCoverageReport($file)
+    {
+        $context = $this->coverageContext;
+        $context->setWorkingDir(getcwd());
+        $context->iReadPhpCoverageReport($file);
+    }
+
+    /**
      * @afterScenario
      */
     public function removeWorkingDirectory()
     {
         try {
-            //$this->filesystem->remove($this->workingDirectory);
+            $this->filesystem->remove($this->workingDirectory);
         } catch (IOException $e) {
             //ignoring exception
         }
